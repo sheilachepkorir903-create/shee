@@ -1,52 +1,45 @@
 <?php
 require __DIR__ . '/../app/bootstrap.php';
-require_role('admin');
+require_role('student');
 
-$from = input('from', date('Y-m-d', strtotime('-30 days')), 'GET');
-$to = input('to', date('Y-m-d'), 'GET');
-$status = input('status', '', 'GET');
-$params = [$from, $to];
-$sql = "SELECT cs.*, un.code, un.name, k.code AS class_code, lu.full_name AS lecturer, ua.id AS assignment_id,
-               (SELECT COUNT(*) FROM enrollments e WHERE e.assignment_id = cs.assignment_id) AS enrolled,
-               SUM(CASE WHEN ar.status IN ('present','late') THEN 1 ELSE 0 END) AS present,
-               SUM(CASE WHEN ar.status = 'absent' THEN 1 ELSE 0 END) AS absent,
-               SUM(CASE WHEN ar.method = 'manual' THEN 1 ELSE 0 END) AS manual,
-               SUM(CASE WHEN ar.method = 'simulated' THEN 1 ELSE 0 END) AS simulated
-        FROM class_sessions cs JOIN unit_assignments ua ON ua.id = cs.assignment_id JOIN units un ON un.id = ua.unit_id
-        JOIN classes k ON k.id = ua.class_id JOIN lecturers l ON l.id = ua.lecturer_id JOIN users lu ON lu.id = l.user_id
-        LEFT JOIN attendance_records ar ON ar.session_id = cs.id
-        WHERE cs.session_date BETWEEN ? AND ?";
-if (in_array($status, ['scheduled', 'open', 'closed', 'cancelled'], true)) { $sql .= ' AND cs.status = ?'; $params[] = $status; }
-$rows = db_all($sql . ' GROUP BY cs.id ORDER BY cs.session_date DESC, cs.start_time DESC LIMIT 500', $params);
+$sid = Auth::studentId();
+$units = ReportService::studentReport($sid);
+$sel = input_int('unit', 'GET');
+if ($sel && !in_array($sel, array_map('intval', array_column($units, 'assignment_id')))) $sel = 0;
+$history = ReportService::studentHistory($sid, $sel ?: null);
+$min = (float)setting('min_attendance_percent', '75');
 
-$pageTitle = 'Attendance Records';
+$pageTitle = 'My Attendance';
 $active = 'attendance';
 require BSAMS_ROOT . '/app/layout/header.php';
 ?>
-<form class="card card-body mb-3" method="get">
-  <div class="row g-2 align-items-end">
-    <div class="col-6 col-md-3"><label class="form-label small">From</label><input type="date" name="from" value="<?= e($from) ?>" class="form-control"></div>
-    <div class="col-6 col-md-3"><label class="form-label small">To</label><input type="date" name="to" value="<?= e($to) ?>" class="form-control"></div>
-    <div class="col-md-3"><label class="form-label small">Status</label><select name="status" class="form-select"><option value="">All</option>
-      <?php foreach (['scheduled', 'open', 'closed', 'cancelled'] as $s): ?><option value="<?= $s ?>" <?= $status === $s ? 'selected' : '' ?>><?= ucfirst($s) ?></option><?php endforeach; ?></select></div>
-    <div class="col-md-auto"><button class="btn btn-primary"><i class="bi bi-funnel"></i> Filter</button></div>
-  </div>
-</form>
-<div class="card">
-  <div class="card-header d-flex align-items-center gap-2"><span><i class="bi bi-calendar-check me-1"></i> Sessions (<?= count($rows) ?>)</span>
-    <input class="form-control form-control-sm table-search ms-auto" placeholder="Search…" data-table-search="#tbl"></div>
-  <div class="table-responsive"><table class="table table-hover mb-0" id="tbl">
-    <thead><tr><th>Date</th><th>Time</th><th>Unit</th><th>Class</th><th>Lecturer</th><th>Status</th><th>Present</th><th>Absent</th><th>Method</th><th></th></tr></thead>
+<div class="card mb-3">
+  <div class="card-header"><i class="bi bi-percent me-1"></i> Attendance percentage per unit</div>
+  <div class="table-responsive"><table class="table mb-0">
+    <thead><tr><th>Unit</th><th>Lecturer</th><th>Held</th><th>Attended</th><th>Late</th><th>Absent</th><th style="min-width:180px">Attendance</th><th>Status</th></tr></thead>
     <tbody>
-    <?php foreach ($rows as $r): ?>
-      <tr><td><?= e(fmt_date($r['session_date'])) ?></td><td><?= fmt_time($r['start_time']) ?>–<?= fmt_time($r['end_time']) ?></td>
-        <td><span class="fw-semibold"><?= e($r['code']) ?></span> <span class="small text-muted"><?= e($r['topic'] ?? '') ?></span></td>
-        <td><?= e($r['class_code']) ?></td><td><?= e($r['lecturer']) ?></td><td><?= status_badge($r['status']) ?></td>
-        <td><?= (int)$r['present'] ?>/<?= (int)$r['enrolled'] ?></td><td><?= (int)$r['absent'] ?></td>
-        <td class="small"><?= $r['simulated'] ? '<span class="badge text-bg-warning">' . (int)$r['simulated'] . ' simulated</span> ' : '' ?><?= $r['manual'] ? '<span class="badge text-bg-info">' . (int)$r['manual'] . ' manual</span>' : '' ?></td>
-        <td><?php if (in_array($r['status'], ['open', 'closed'], true)): ?><a class="btn btn-sm btn-outline-primary" href="<?= url('admin/reports.php?type=session&assignment_id=' . (int)$r['assignment_id'] . '&session_id=' . (int)$r['id']) ?>">Register</a><?php endif; ?></td></tr>
+    <?php foreach ($units as $u): $p = $u['percent']; ?>
+      <tr><td><a href="?unit=<?= (int)$u['assignment_id'] ?>" class="fw-semibold"><?= e($u['code']) ?></a> <?= e($u['name']) ?></td><td><?= e($u['lecturer']) ?></td>
+        <td><?= (int)$u['held'] ?></td><td><?= (int)$u['attended'] ?></td><td><?= (int)$u['late'] ?></td><td><?= (int)$u['absent'] ?></td>
+        <td><?php if ($p !== null): ?><div class="d-flex align-items-center gap-2"><div class="progress flex-grow-1"><div class="progress-bar bg-<?= $p >= $min ? 'success' : 'danger' ?>" style="width: <?= (float)$p ?>%"></div></div><span class="small fw-semibold"><?= e($p) ?>%</span></div><?php else: ?><span class="text-muted small">No sessions yet</span><?php endif; ?></td>
+        <td><?= $p === null ? '' : ($p >= $min ? '<span class="badge text-bg-success">Meets minimum</span>' : '<span class="badge text-bg-danger">Below ' . e($min) . '%</span>') ?></td></tr>
     <?php endforeach; ?>
-    <?php if (!$rows): ?><tr><td colspan="10" class="text-center text-muted py-4">No sessions in this period.</td></tr><?php endif; ?>
+    <?php if (!$units): ?><tr><td colspan="8" class="text-center text-muted py-4">You are not registered for any units yet.</td></tr><?php endif; ?>
+    </tbody></table></div>
+</div>
+<div class="card">
+  <div class="card-header d-flex flex-wrap gap-2 align-items-center"><span><i class="bi bi-clock-history me-1"></i> Attendance history <?= $sel ? '(filtered)' : '' ?></span>
+    <?php if ($sel): ?><a href="?" class="btn btn-sm btn-light">Show all units</a><?php endif; ?>
+    <button class="btn btn-sm btn-outline-secondary ms-auto" onclick="window.print()"><i class="bi bi-printer"></i> Print</button></div>
+  <div class="table-responsive"><table class="table table-hover mb-0">
+    <thead><tr><th>Date</th><th>Time</th><th>Unit</th><th>Topic</th><th>Status</th><th>Recorded</th><th>Method</th></tr></thead>
+    <tbody>
+    <?php foreach ($history as $h): ?>
+      <tr><td><?= e(fmt_date($h['session_date'])) ?></td><td><?= fmt_time($h['start_time']) ?>–<?= fmt_time($h['end_time']) ?></td><td><?= e($h['code']) ?></td>
+        <td class="small"><?= e($h['topic'] ?? '') ?></td><td><?= status_badge($h['status']) ?></td>
+        <td><?= $h['status'] !== 'absent' ? fmt_time($h['recorded_at']) : '—' ?></td><td class="small"><?= e($h['method'] === 'auto' ? 'not scanned' : $h['method']) ?></td></tr>
+    <?php endforeach; ?>
+    <?php if (!$history): ?><tr><td colspan="7" class="text-center text-muted py-4">No attendance records yet.</td></tr><?php endif; ?>
     </tbody></table></div>
 </div>
 <?php require BSAMS_ROOT . '/app/layout/footer.php'; ?>
