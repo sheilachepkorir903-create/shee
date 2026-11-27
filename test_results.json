@@ -1,0 +1,804 @@
+{
+    "summary": "97 of 97 tests passed (0 failed) in 11.7 s",
+    "environment": {
+        "php": "8.3.36",
+        "db": "10.11.16-MariaDB",
+        "os": "Windows NT 10.0",
+        "date": "2026-11-12 14:14:51",
+        "bridge_tests": true
+    },
+    "page_times_ms": {
+        "admin\/dashboard.php": 30.1,
+        "admin\/students.php": 14.1,
+        "admin\/reports.php": 16.2,
+        "lecturer\/dashboard.php": 27.1,
+        "student\/dashboard.php": 26,
+        "student\/attendance.php": 23.2
+    },
+    "genuine_scores": {
+        "min": 89.13,
+        "mean": 93.64580000000005
+    },
+    "impostor_scores": {
+        "max": 28.83,
+        "mean": 4.529099999999998
+    },
+    "results": [
+        {
+            "id": "UT-01",
+            "level": "Unit tests",
+            "description": "validate() rejects missing required field and bad email",
+            "requirement": "",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "UT-02",
+            "level": "Unit tests",
+            "description": "validate() accepts valid input",
+            "requirement": "",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "UT-03",
+            "level": "Unit tests",
+            "description": "Password policy rejects weak and accepts strong passwords",
+            "requirement": "FR-05",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "UT-04",
+            "level": "Unit tests",
+            "description": "random_password() always satisfies the password policy",
+            "requirement": "",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "UT-05",
+            "level": "Unit tests",
+            "description": "e() escapes HTML special characters (XSS)",
+            "requirement": "NFR-01",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "UT-06",
+            "level": "Unit tests",
+            "description": "TemplateVault encrypts (ciphertext differs) and decrypts correctly",
+            "requirement": "FR-19, NFR-02",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "UT-07",
+            "level": "Unit tests",
+            "description": "TemplateVault detects altered ciphertext (GCM authentication)",
+            "requirement": "NFR-02",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "UT-08",
+            "level": "Unit tests",
+            "description": "Same template encrypts differently each time (random IV)",
+            "requirement": "",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "UT-09",
+            "level": "Unit tests",
+            "description": "Simulated matcher: 200 genuine pairs all score at or above threshold",
+            "requirement": "FR-22",
+            "result": "PASS",
+            "note": "min 89.1, mean 93.6, threshold 80"
+        },
+        {
+            "id": "UT-10",
+            "level": "Unit tests",
+            "description": "Simulated matcher: 200 impostor pairs all score below threshold",
+            "requirement": "FR-25",
+            "result": "PASS",
+            "note": "max 28.8, mean 4.5"
+        },
+        {
+            "id": "UT-11",
+            "level": "Unit tests",
+            "description": "Malformed template is rejected by the provider",
+            "requirement": "",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "UT-12",
+            "level": "Unit tests",
+            "description": "Bridge URL that is not the local machine is refused",
+            "requirement": "NFR-02",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "ST-01",
+            "level": "Authentication and access control",
+            "description": "Unauthenticated user is redirected to the login page",
+            "requirement": "FR-03",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "ST-02",
+            "level": "Authentication and access control",
+            "description": "Administrator logs in with valid credentials",
+            "requirement": "FR-01",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "SEC-01",
+            "level": "Authentication and access control",
+            "description": "Session ID is regenerated after login (session fixation protection)",
+            "requirement": "NFR-01",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "SEC-02",
+            "level": "Authentication and access control",
+            "description": "Session cookie is HttpOnly and SameSite=Strict",
+            "requirement": "NFR-01",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "ST-03",
+            "level": "Authentication and access control",
+            "description": "Passwords are stored as password_hash() hashes, not plain text",
+            "requirement": "FR-02",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "ST-04",
+            "level": "Authentication and access control",
+            "description": "Wrong password is rejected with a generic message",
+            "requirement": "FR-01",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "SEC-03",
+            "level": "Authentication and access control",
+            "description": "SQL injection in the login form does not log in",
+            "requirement": "NFR-01",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "ST-05",
+            "level": "Authentication and access control",
+            "description": "Account is locked after 5 failed attempts even with the correct password",
+            "requirement": "FR-04",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "SEC-04",
+            "level": "Authentication and access control",
+            "description": "Form submitted without a CSRF token is rejected (no login, request refused)",
+            "requirement": "NFR-01",
+            "result": "PASS",
+            "note": "HTTP 302"
+        },
+        {
+            "id": "SEC-05",
+            "level": "Authentication and access control",
+            "description": "Forged CSRF token on a logged-in admin form is rejected",
+            "requirement": "NFR-01",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "ST-06",
+            "level": "Authentication and access control",
+            "description": "Lecturer is denied access to administrator pages (403)",
+            "requirement": "FR-03",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "ST-07",
+            "level": "Authentication and access control",
+            "description": "Student is denied access to lecturer and admin pages (403)",
+            "requirement": "FR-03",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "SEC-06",
+            "level": "Authentication and access control",
+            "description": "Configuration, key, database and source folders are not web-accessible",
+            "requirement": "NFR-02",
+            "result": "PASS",
+            "note": "403,403,403,403,403"
+        },
+        {
+            "id": "SEC-07",
+            "level": "Authentication and access control",
+            "description": "Logout by GET link does not log the user out (logout requires POST + CSRF)",
+            "requirement": "",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "ST-08",
+            "level": "Records management (administrator)",
+            "description": "Administrator creates a department",
+            "requirement": "FR-13",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "ST-09",
+            "level": "Records management (administrator)",
+            "description": "Duplicate department code is rejected",
+            "requirement": "FR-13",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "SEC-08",
+            "level": "Records management (administrator)",
+            "description": "Stored script in a name is displayed escaped, not executed (XSS)",
+            "requirement": "NFR-01",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "ST-10",
+            "level": "Records management (administrator)",
+            "description": "Administrator creates a course, class and unit",
+            "requirement": "FR-13",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "ST-11",
+            "level": "Records management (administrator)",
+            "description": "Department that still has courses cannot be deleted",
+            "requirement": "FR-15",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "ST-12",
+            "level": "Records management (administrator)",
+            "description": "Registering a student creates the student record and a login account with temporary password",
+            "requirement": "FR-07, FR-09",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "ST-13",
+            "level": "Records management (administrator)",
+            "description": "Duplicate admission number is rejected",
+            "requirement": "FR-08",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "ST-14",
+            "level": "Records management (administrator)",
+            "description": "Invalid student input (admission number, email) is rejected by validation",
+            "requirement": "FR-07",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "ST-15",
+            "level": "Records management (administrator)",
+            "description": "New user is forced to change the temporary password at first login",
+            "requirement": "FR-05",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "ST-16",
+            "level": "Records management (administrator)",
+            "description": "User changes password and can then use the system",
+            "requirement": "FR-05",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "ST-17",
+            "level": "Records management (administrator)",
+            "description": "CSV import adds valid rows and reports invalid rows",
+            "requirement": "FR-10",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "ST-18",
+            "level": "Records management (administrator)",
+            "description": "Administrator registers a lecturer with a login account",
+            "requirement": "FR-11",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "ST-19",
+            "level": "Records management (administrator)",
+            "description": "Unit is allocated to a lecturer and the whole class is registered for it",
+            "requirement": "FR-12, FR-14",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "ST-20",
+            "level": "Records management (administrator)",
+            "description": "The same unit cannot be allocated twice to a class in one term",
+            "requirement": "FR-12",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "BT-01",
+            "level": "Fingerprint enrolment (SIMULATED scanner)",
+            "description": "Enrolment is refused until the student's consent is recorded",
+            "requirement": "FR-16",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "BT-02",
+            "level": "Fingerprint enrolment (SIMULATED scanner)",
+            "description": "Consent is recorded with date, version and administrator",
+            "requirement": "FR-16",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "BT-03",
+            "level": "Fingerprint enrolment (SIMULATED scanner)",
+            "description": "Two fingers are enrolled for a student",
+            "requirement": "FR-17",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "BT-04",
+            "level": "Fingerprint enrolment (SIMULATED scanner)",
+            "description": "Stored template is encrypted (no readable template or image data in the database)",
+            "requirement": "FR-19, NFR-02",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "BT-05",
+            "level": "Fingerprint enrolment (SIMULATED scanner)",
+            "description": "Low-quality capture is rejected and the user is asked to rescan",
+            "requirement": "FR-18",
+            "result": "PASS",
+            "note": "quality 23"
+        },
+        {
+            "id": "BT-06",
+            "level": "Fingerprint enrolment (SIMULATED scanner)",
+            "description": "A finger already enrolled for another student is rejected",
+            "requirement": "FR-20",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "BT-07",
+            "level": "Fingerprint enrolment (SIMULATED scanner)",
+            "description": "Second student enrols own finger successfully",
+            "requirement": "FR-17",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "BT-08",
+            "level": "Fingerprint enrolment (SIMULATED scanner)",
+            "description": "A lecturer cannot enrol fingerprints (admin only)",
+            "requirement": "FR-03",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "ST-21",
+            "level": "Attendance sessions and fingerprint identification (SIMULATED)",
+            "description": "Lecturer creates a session for an allocated unit",
+            "requirement": "FR-29",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "ST-22",
+            "level": "Attendance sessions and fingerprint identification (SIMULATED)",
+            "description": "Lecturer cannot create a session for another lecturer's unit",
+            "requirement": "FR-29",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "ST-23",
+            "level": "Attendance sessions and fingerprint identification (SIMULATED)",
+            "description": "Scanning is refused while the session is not open",
+            "requirement": "FR-30",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "ST-24",
+            "level": "Attendance sessions and fingerprint identification (SIMULATED)",
+            "description": "Lecturer opens the session",
+            "requirement": "FR-30",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "BT-09",
+            "level": "Attendance sessions and fingerprint identification (SIMULATED)",
+            "description": "Enrolled student is identified and attendance recorded automatically",
+            "requirement": "FR-22, FR-23",
+            "result": "PASS",
+            "note": "score 94.74"
+        },
+        {
+            "id": "BT-10",
+            "level": "Attendance sessions and fingerprint identification (SIMULATED)",
+            "description": "Record stores session (unit, class, lecturer via allocation), date\/time, method and score",
+            "requirement": "FR-23",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "BT-11",
+            "level": "Attendance sessions and fingerprint identification (SIMULATED)",
+            "description": "Success message shows the student's name and admission number",
+            "requirement": "FR-26",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "BT-12",
+            "level": "Attendance sessions and fingerprint identification (SIMULATED)",
+            "description": "Student scanning after the grace period is marked late",
+            "requirement": "FR-27",
+            "result": "PASS",
+            "note": "session started 00:00"
+        },
+        {
+            "id": "BT-13",
+            "level": "Attendance sessions and fingerprint identification (SIMULATED)",
+            "description": "Second scan in the same session is reported as duplicate; still one record",
+            "requirement": "FR-24",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "BT-14",
+            "level": "Attendance sessions and fingerprint identification (SIMULATED)",
+            "description": "Database unique key itself blocks a duplicate attendance row",
+            "requirement": "FR-24",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "BT-15",
+            "level": "Attendance sessions and fingerprint identification (SIMULATED)",
+            "description": "Unregistered fingerprint is rejected with a clear message",
+            "requirement": "FR-25",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "BT-16",
+            "level": "Attendance sessions and fingerprint identification (SIMULATED)",
+            "description": "Enrolled student who is NOT registered for this unit is rejected",
+            "requirement": "FR-22, FR-25",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "BT-17",
+            "level": "Attendance sessions and fingerprint identification (SIMULATED)",
+            "description": "Registered student without enrolled fingerprints is rejected",
+            "requirement": "FR-25",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "BT-18",
+            "level": "Attendance sessions and fingerprint identification (SIMULATED)",
+            "description": "Poor quality scan asks the student to try again",
+            "requirement": "FR-18",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "SEC-09",
+            "level": "Attendance sessions and fingerprint identification (SIMULATED)",
+            "description": "A lecturer cannot submit scans for another lecturer's session",
+            "requirement": "FR-03",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "ST-25",
+            "level": "Attendance sessions and fingerprint identification (SIMULATED)",
+            "description": "Live attendance returns present count and list for the open session",
+            "requirement": "FR-32",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "ST-26",
+            "level": "Attendance sessions and fingerprint identification (SIMULATED)",
+            "description": "Manual marking without a proper reason is refused",
+            "requirement": "FR-28",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "ST-27",
+            "level": "Attendance sessions and fingerprint identification (SIMULATED)",
+            "description": "Manual marking with a reason is saved and flagged as manual",
+            "requirement": "FR-28",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "ST-28",
+            "level": "Attendance sessions and fingerprint identification (SIMULATED)",
+            "description": "Closing the session records students who did not scan as absent",
+            "requirement": "FR-31",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "ST-29",
+            "level": "Attendance sessions and fingerprint identification (SIMULATED)",
+            "description": "Scanning after the session is closed is refused",
+            "requirement": "FR-30",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "ST-30",
+            "level": "Reports, percentages and notifications",
+            "description": "Attendance percentage is calculated correctly (absent student = 0%, present = 100%)",
+            "requirement": "FR-33",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "ST-31",
+            "level": "Reports, percentages and notifications",
+            "description": "All attendance percentages match an independent recalculation",
+            "requirement": "FR-33, FR-34",
+            "result": "PASS",
+            "note": "0 mismatches"
+        },
+        {
+            "id": "ST-32",
+            "level": "Reports, percentages and notifications",
+            "description": "Student below the minimum receives a low-attendance notification",
+            "requirement": "FR-38",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "ST-33",
+            "level": "Reports, percentages and notifications",
+            "description": "Student sees own units, percentages and history",
+            "requirement": "FR-33",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "SEC-10",
+            "level": "Reports, percentages and notifications",
+            "description": "Student cannot view another unit's records by changing the URL",
+            "requirement": "FR-03",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "ST-34",
+            "level": "Reports, percentages and notifications",
+            "description": "Unit attendance report exports to CSV",
+            "requirement": "FR-35, FR-36",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "ST-35",
+            "level": "Reports, percentages and notifications",
+            "description": "Session register report lists every registered student with status",
+            "requirement": "FR-35",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "SEC-11",
+            "level": "Reports, percentages and notifications",
+            "description": "Lecturer cannot open reports for another lecturer's unit",
+            "requirement": "FR-03",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "ST-36",
+            "level": "Reports, percentages and notifications",
+            "description": "Lecturer exports list of students below the minimum (own units only)",
+            "requirement": "FR-35",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "ST-37",
+            "level": "Reports, percentages and notifications",
+            "description": "Each role has a dashboard with statistics and charts",
+            "requirement": "FR-37",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "ST-38",
+            "level": "Reports, percentages and notifications",
+            "description": "Administrator sends an announcement to a class",
+            "requirement": "FR-39",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "ST-39",
+            "level": "Audit, settings, backup and data protection",
+            "description": "Security-relevant actions are written to the audit log",
+            "requirement": "FR-40",
+            "result": "PASS",
+            "note": "missing: "
+        },
+        {
+            "id": "ST-40",
+            "level": "Audit, settings, backup and data protection",
+            "description": "Audit log entries cannot be changed or deleted (database triggers)",
+            "requirement": "FR-41",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "ST-41",
+            "level": "Audit, settings, backup and data protection",
+            "description": "Unsafe match threshold (20) is rejected by settings validation",
+            "requirement": "FR-42",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "ST-42",
+            "level": "Audit, settings, backup and data protection",
+            "description": "Administrator changes the minimum attendance and grace period",
+            "requirement": "FR-42",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "ST-43",
+            "level": "Audit, settings, backup and data protection",
+            "description": "Database backup file is created with tables, data, view and triggers",
+            "requirement": "FR-43",
+            "result": "PASS",
+            "note": "150.3 KB"
+        },
+        {
+            "id": "SEC-12",
+            "level": "Audit, settings, backup and data protection",
+            "description": "Backup download rejects path traversal attempts",
+            "requirement": "NFR-01",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "ST-44",
+            "level": "Audit, settings, backup and data protection",
+            "description": "Withdrawing consent permanently deletes the student's templates",
+            "requirement": "FR-21",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "HW-01",
+            "level": "Hardware code path with MOCK bridge (no real scanner)",
+            "description": "BridgeProvider connects to the bridge \/status endpoint",
+            "requirement": "Section 3.3 SRS",
+            "result": "PASS",
+            "note": "Bridge connected: MOCK scanner (no hardware) (BSAMS mock bridge 1.0)"
+        },
+        {
+            "id": "HW-02",
+            "level": "Hardware code path with MOCK bridge (no real scanner)",
+            "description": "Bridge \/capture returns a base64 template and allows the BSAMS origin (CORS)",
+            "requirement": "",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "HW-03",
+            "level": "Hardware code path with MOCK bridge (no real scanner)",
+            "description": "Enrolment through the hardware driver stores a \"hardware\" template",
+            "requirement": "FR-17",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "HW-04",
+            "level": "Hardware code path with MOCK bridge (no real scanner)",
+            "description": "The simulated scanner is disabled while the hardware driver is active",
+            "requirement": "NFR-09",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "HW-05",
+            "level": "Hardware code path with MOCK bridge (no real scanner)",
+            "description": "Scan via bridge identifies the student and records method \"hardware\"",
+            "requirement": "FR-22, FR-23",
+            "result": "PASS",
+            "note": "score 92.77"
+        },
+        {
+            "id": "HW-06",
+            "level": "Hardware code path with MOCK bridge (no real scanner)",
+            "description": "Unknown finger via bridge is rejected",
+            "requirement": "FR-25",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "HW-07",
+            "level": "Hardware code path with MOCK bridge (no real scanner)",
+            "description": "Simulated templates are never used when the hardware driver is active",
+            "requirement": "NFR-09",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "HW-08",
+            "level": "Hardware code path with MOCK bridge (no real scanner)",
+            "description": "If the bridge stops, the station shows a clear error (manual fallback available)",
+            "requirement": "NFR-10",
+            "result": "PASS",
+            "note": ""
+        },
+        {
+            "id": "PF-01",
+            "level": "Performance (development computer)",
+            "description": "Decrypt + identify against 200 enrolled templates within 3 seconds",
+            "requirement": "NFR-03",
+            "result": "PASS",
+            "note": "16.2 ms, correct match"
+        },
+        {
+            "id": "PF-02",
+            "level": "Performance (development computer)",
+            "description": "End-to-end scan request (HTTP + DB + matching) within 3 seconds",
+            "requirement": "NFR-03",
+            "result": "PASS",
+            "note": "max 142 ms over 3 scans"
+        },
+        {
+            "id": "PF-03",
+            "level": "Performance (development computer)",
+            "description": "Main pages load within 2 seconds (median of 5)",
+            "requirement": "NFR-03",
+            "result": "PASS",
+            "note": "dashboard 30.1ms, students 14.1ms, reports 16.2ms, dashboard 27.1ms, dashboard 26ms, attendance 23.2ms"
+        }
+    ]
+}

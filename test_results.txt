@@ -1,0 +1,101 @@
+BSAMS automated test results
+97 of 97 tests passed (0 failed) in 11.7 s
+Environment: {"php":"8.3.36","db":"10.11.16-MariaDB","os":"Windows NT 10.0","date":"2026-11-12 14:14:51","bridge_tests":true}
+
+PASS UT-01   [Unit tests]                                  validate() rejects missing required field and bad email 
+PASS UT-02   [Unit tests]                                  validate() accepts valid input 
+PASS UT-03   [Unit tests]                                  Password policy rejects weak and accepts strong passwords 
+PASS UT-04   [Unit tests]                                  random_password() always satisfies the password policy 
+PASS UT-05   [Unit tests]                                  e() escapes HTML special characters (XSS) 
+PASS UT-06   [Unit tests]                                  TemplateVault encrypts (ciphertext differs) and decrypts correctly 
+PASS UT-07   [Unit tests]                                  TemplateVault detects altered ciphertext (GCM authentication) 
+PASS UT-08   [Unit tests]                                  Same template encrypts differently each time (random IV) 
+PASS UT-09   [Unit tests]                                  Simulated matcher: 200 genuine pairs all score at or above threshold (min 89.1, mean 93.6, threshold 80)
+PASS UT-10   [Unit tests]                                  Simulated matcher: 200 impostor pairs all score below threshold (max 28.8, mean 4.5)
+PASS UT-11   [Unit tests]                                  Malformed template is rejected by the provider 
+PASS UT-12   [Unit tests]                                  Bridge URL that is not the local machine is refused 
+PASS ST-01   [Authentication and access control]           Unauthenticated user is redirected to the login page 
+PASS ST-02   [Authentication and access control]           Administrator logs in with valid credentials 
+PASS SEC-01  [Authentication and access control]           Session ID is regenerated after login (session fixation protection) 
+PASS SEC-02  [Authentication and access control]           Session cookie is HttpOnly and SameSite=Strict 
+PASS ST-03   [Authentication and access control]           Passwords are stored as password_hash() hashes, not plain text 
+PASS ST-04   [Authentication and access control]           Wrong password is rejected with a generic message 
+PASS SEC-03  [Authentication and access control]           SQL injection in the login form does not log in 
+PASS ST-05   [Authentication and access control]           Account is locked after 5 failed attempts even with the correct password 
+PASS SEC-04  [Authentication and access control]           Form submitted without a CSRF token is rejected (no login, request refused) (HTTP 302)
+PASS SEC-05  [Authentication and access control]           Forged CSRF token on a logged-in admin form is rejected 
+PASS ST-06   [Authentication and access control]           Lecturer is denied access to administrator pages (403) 
+PASS ST-07   [Authentication and access control]           Student is denied access to lecturer and admin pages (403) 
+PASS SEC-06  [Authentication and access control]           Configuration, key, database and source folders are not web-accessible (403,403,403,403,403)
+PASS SEC-07  [Authentication and access control]           Logout by GET link does not log the user out (logout requires POST + CSRF) 
+PASS ST-08   [Records management (administrator)]          Administrator creates a department 
+PASS ST-09   [Records management (administrator)]          Duplicate department code is rejected 
+PASS SEC-08  [Records management (administrator)]          Stored script in a name is displayed escaped, not executed (XSS) 
+PASS ST-10   [Records management (administrator)]          Administrator creates a course, class and unit 
+PASS ST-11   [Records management (administrator)]          Department that still has courses cannot be deleted 
+PASS ST-12   [Records management (administrator)]          Registering a student creates the student record and a login account with temporary password 
+PASS ST-13   [Records management (administrator)]          Duplicate admission number is rejected 
+PASS ST-14   [Records management (administrator)]          Invalid student input (admission number, email) is rejected by validation 
+PASS ST-15   [Records management (administrator)]          New user is forced to change the temporary password at first login 
+PASS ST-16   [Records management (administrator)]          User changes password and can then use the system 
+PASS ST-17   [Records management (administrator)]          CSV import adds valid rows and reports invalid rows 
+PASS ST-18   [Records management (administrator)]          Administrator registers a lecturer with a login account 
+PASS ST-19   [Records management (administrator)]          Unit is allocated to a lecturer and the whole class is registered for it 
+PASS ST-20   [Records management (administrator)]          The same unit cannot be allocated twice to a class in one term 
+PASS BT-01   [Fingerprint enrolment (SIMULATED scanner)]   Enrolment is refused until the student's consent is recorded 
+PASS BT-02   [Fingerprint enrolment (SIMULATED scanner)]   Consent is recorded with date, version and administrator 
+PASS BT-03   [Fingerprint enrolment (SIMULATED scanner)]   Two fingers are enrolled for a student 
+PASS BT-04   [Fingerprint enrolment (SIMULATED scanner)]   Stored template is encrypted (no readable template or image data in the database) 
+PASS BT-05   [Fingerprint enrolment (SIMULATED scanner)]   Low-quality capture is rejected and the user is asked to rescan (quality 23)
+PASS BT-06   [Fingerprint enrolment (SIMULATED scanner)]   A finger already enrolled for another student is rejected 
+PASS BT-07   [Fingerprint enrolment (SIMULATED scanner)]   Second student enrols own finger successfully 
+PASS BT-08   [Fingerprint enrolment (SIMULATED scanner)]   A lecturer cannot enrol fingerprints (admin only) 
+PASS ST-21   [Attendance sessions and fingerprint identification (SIMULATED)] Lecturer creates a session for an allocated unit 
+PASS ST-22   [Attendance sessions and fingerprint identification (SIMULATED)] Lecturer cannot create a session for another lecturer's unit 
+PASS ST-23   [Attendance sessions and fingerprint identification (SIMULATED)] Scanning is refused while the session is not open 
+PASS ST-24   [Attendance sessions and fingerprint identification (SIMULATED)] Lecturer opens the session 
+PASS BT-09   [Attendance sessions and fingerprint identification (SIMULATED)] Enrolled student is identified and attendance recorded automatically (score 94.74)
+PASS BT-10   [Attendance sessions and fingerprint identification (SIMULATED)] Record stores session (unit, class, lecturer via allocation), date/time, method and score 
+PASS BT-11   [Attendance sessions and fingerprint identification (SIMULATED)] Success message shows the student's name and admission number 
+PASS BT-12   [Attendance sessions and fingerprint identification (SIMULATED)] Student scanning after the grace period is marked late (session started 00:00)
+PASS BT-13   [Attendance sessions and fingerprint identification (SIMULATED)] Second scan in the same session is reported as duplicate; still one record 
+PASS BT-14   [Attendance sessions and fingerprint identification (SIMULATED)] Database unique key itself blocks a duplicate attendance row 
+PASS BT-15   [Attendance sessions and fingerprint identification (SIMULATED)] Unregistered fingerprint is rejected with a clear message 
+PASS BT-16   [Attendance sessions and fingerprint identification (SIMULATED)] Enrolled student who is NOT registered for this unit is rejected 
+PASS BT-17   [Attendance sessions and fingerprint identification (SIMULATED)] Registered student without enrolled fingerprints is rejected 
+PASS BT-18   [Attendance sessions and fingerprint identification (SIMULATED)] Poor quality scan asks the student to try again 
+PASS SEC-09  [Attendance sessions and fingerprint identification (SIMULATED)] A lecturer cannot submit scans for another lecturer's session 
+PASS ST-25   [Attendance sessions and fingerprint identification (SIMULATED)] Live attendance returns present count and list for the open session 
+PASS ST-26   [Attendance sessions and fingerprint identification (SIMULATED)] Manual marking without a proper reason is refused 
+PASS ST-27   [Attendance sessions and fingerprint identification (SIMULATED)] Manual marking with a reason is saved and flagged as manual 
+PASS ST-28   [Attendance sessions and fingerprint identification (SIMULATED)] Closing the session records students who did not scan as absent 
+PASS ST-29   [Attendance sessions and fingerprint identification (SIMULATED)] Scanning after the session is closed is refused 
+PASS ST-30   [Reports, percentages and notifications]      Attendance percentage is calculated correctly (absent student = 0%, present = 100%) 
+PASS ST-31   [Reports, percentages and notifications]      All attendance percentages match an independent recalculation (0 mismatches)
+PASS ST-32   [Reports, percentages and notifications]      Student below the minimum receives a low-attendance notification 
+PASS ST-33   [Reports, percentages and notifications]      Student sees own units, percentages and history 
+PASS SEC-10  [Reports, percentages and notifications]      Student cannot view another unit's records by changing the URL 
+PASS ST-34   [Reports, percentages and notifications]      Unit attendance report exports to CSV 
+PASS ST-35   [Reports, percentages and notifications]      Session register report lists every registered student with status 
+PASS SEC-11  [Reports, percentages and notifications]      Lecturer cannot open reports for another lecturer's unit 
+PASS ST-36   [Reports, percentages and notifications]      Lecturer exports list of students below the minimum (own units only) 
+PASS ST-37   [Reports, percentages and notifications]      Each role has a dashboard with statistics and charts 
+PASS ST-38   [Reports, percentages and notifications]      Administrator sends an announcement to a class 
+PASS ST-39   [Audit, settings, backup and data protection] Security-relevant actions are written to the audit log (missing: )
+PASS ST-40   [Audit, settings, backup and data protection] Audit log entries cannot be changed or deleted (database triggers) 
+PASS ST-41   [Audit, settings, backup and data protection] Unsafe match threshold (20) is rejected by settings validation 
+PASS ST-42   [Audit, settings, backup and data protection] Administrator changes the minimum attendance and grace period 
+PASS ST-43   [Audit, settings, backup and data protection] Database backup file is created with tables, data, view and triggers (150.3 KB)
+PASS SEC-12  [Audit, settings, backup and data protection] Backup download rejects path traversal attempts 
+PASS ST-44   [Audit, settings, backup and data protection] Withdrawing consent permanently deletes the student's templates 
+PASS HW-01   [Hardware code path with MOCK bridge (no real scanner)] BridgeProvider connects to the bridge /status endpoint (Bridge connected: MOCK scanner (no hardware) (BSAMS mock bridge 1.0))
+PASS HW-02   [Hardware code path with MOCK bridge (no real scanner)] Bridge /capture returns a base64 template and allows the BSAMS origin (CORS) 
+PASS HW-03   [Hardware code path with MOCK bridge (no real scanner)] Enrolment through the hardware driver stores a "hardware" template 
+PASS HW-04   [Hardware code path with MOCK bridge (no real scanner)] The simulated scanner is disabled while the hardware driver is active 
+PASS HW-05   [Hardware code path with MOCK bridge (no real scanner)] Scan via bridge identifies the student and records method "hardware" (score 92.77)
+PASS HW-06   [Hardware code path with MOCK bridge (no real scanner)] Unknown finger via bridge is rejected 
+PASS HW-07   [Hardware code path with MOCK bridge (no real scanner)] Simulated templates are never used when the hardware driver is active 
+PASS HW-08   [Hardware code path with MOCK bridge (no real scanner)] If the bridge stops, the station shows a clear error (manual fallback available) 
+PASS PF-01   [Performance (development computer)]          Decrypt + identify against 200 enrolled templates within 3 seconds (16.2 ms, correct match)
+PASS PF-02   [Performance (development computer)]          End-to-end scan request (HTTP + DB + matching) within 3 seconds (max 142 ms over 3 scans)
+PASS PF-03   [Performance (development computer)]          Main pages load within 2 seconds (median of 5) (dashboard 30.1ms, students 14.1ms, reports 16.2ms, dashboard 27.1ms, dashboard 26ms, attendance 23.2ms)
